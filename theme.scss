@@ -1,0 +1,46 @@
+/* Variable */
+
+$light: #ffffff;
+$light1: #efefef;
+$gray: #757575;
+$dark: #000000;
+$dark-1: rgba(0,0,0,.54);
+$dark-2: rgba(0,0,0,.12); 
+$primary: red;
+$secondary: orange;
+
+$error: red;
+$pass: green;
+$warn: orange;
+
+$fontS: 12px;
+$fontM: 13px;
+$fontL: 14px;
+
+/* Common */
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.error {
+    color: $error !important;
+}
+.pass {
+    color: $pass !important;
+}
+.warn {
+    color: $warn !important;
+}
+
+a {
+    color: $primary;
+}
+
+
+@import "./components/tab.scss";
+@import "./components/table.scss";
+@import "./components/dialog.scss";
+@import "./components/detail.scss";
+@import "./components/form.scss";

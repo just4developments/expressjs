@@ -1,36 +1,44 @@
 {
-  "name": "mcro-core",
+  "name": "mcro-theme",
   "version": "1.0.0",
-  "description": "It extends expressjs-core. It help us easy to make core micro service and generate APIs",
+  "description": "Publish theme and admin manager for GUI",
   "main": "index.js",
   "scripts": {
-    "start": "node --harmony-async-await index.js",
-    "test": "node --harmony-async-await test.js",
-    "check": "nsp check",
-    "gen": "node ./lib/generate/gen.js",
+    "start": "node index",
     "pm2": "pm2 start pm2.config.js",
-    "dev": "cd ./web && npm run dev",
-    "route": "node ./web/webpack.import",
-    "create": "node ./web/tools-create"
+    "dev": "webpack --progress --colors --watch",
+    "theme": "sass --watch ./theme.scss:./dist/theme.css --style compressed",
+    "package": "webpack --progress --colors & sass ./theme.scss:./dist/theme.css --style compressed"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/just4developments/expressjs-core/tree/mcro-core"
+    "url": "git+https://github.com/thanhdt-viosoft/expressjs-core.git"
   },
-  "author": "just4developments@gmail.com",
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thanhdt-viosoft/expressjs-core/issues"
+  },
+  "homepage": "https://github.com/thanhdt-viosoft/expressjs-core#readme",
   "dependencies": {
-    "body-parser": "^1.16.1",
-    "cors": "^2.8.1",
-    "express": "^5.0.0-alpha.3",
-    "helmet": "^3.4.0",
-    "lodash": "^4.17.2",
-    "mongodb": "^2.2.22",
-    "unirest": "^0.5.1",
-    "uuid": "^3.0.1"
+    "compression": "^1.6.2",
+    "express": "^4.14.1"
   },
   "devDependencies": {
-    "js-beautify": "^1.6.4",
-    "optimize-js-plugin": "0.0.4"
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "css-loader": "^0.25.0",
+    "exports-loader": "^0.6.3",
+    "extract-loader": "0.0.2",
+    "file-loader": "^0.9.0",
+    "html-loader": "^0.4.4",
+    "imports-loader": "^0.6.5",
+    "node-sass": "^3.11.2",
+    "raw-loader": "^0.5.1",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.2"
   }
 }

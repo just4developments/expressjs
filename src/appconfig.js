@@ -1,8 +1,8 @@
 global.appconfig = {
-    name: 'plugin.core',
-    listen: 9002,
+    name: 'plugin.theme',
+    listen: 9599,
     db: {
-        url: 'mongodb://localhost:27017/core'
+        url: 'mongodb://localhost:27017/theme'
     },
     services: {
         manager: 'http://localhost:9599',
@@ -11,6 +11,6 @@ global.appconfig = {
         log: 'http://localhost:9603'
     },
     app: {
-        encrypt: '*(*#$&'
+        encrypt: ')^!!!(**'
     }
 };
