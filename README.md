@@ -1,47 +1,25 @@
-# ExpressJS Core
-Fast, easy and flexiable to implement and maintaince project base on expressJS.
+# restify-core
+Fast, easy and flexiable to implement and maintaince project base on restify.
 
 ## Feature:
-1. Create project base on expressJS
+1. Create project base on Restify
 2. Auto generate APIs layer (Controller, service, database (mongo: available, others: Implement db interface to customize))
 3. Optimize FileUpload and resize image via configuration file
 
 Config API Generation at lib/generate/initial.js 
 
 ```sh
-module.exports = module.exports = {
-    auth: "utils.auth(`${global.appconfig.name}>${table}`, '${action}')",
-    tables: {
-        project: {
-            _id: GenType.Key(GenType.Uuid),
-            name: GenType.String,
-            status: GenType.Number(0),  
-            plugins: GenType.Object({
-                oauthv2: GenType.Object({
-                    _id: GenType.Uuid,
-                    single_mode: GenType.Boolean,
-                    session_expired: GenType.Number
-                })
-            }),          
-            roles: GenType.Array,
-            user: GenType.Array({
-                username: GenType.String,
-                password: GenType.String(null)
-            }, null),
-            abc: GenType.Array({
-                username: GenType.String,
-                password: GenType.String(null)
-            }, [{
-                username: 'thanh'
-            }]),
-            image: GenType.File({
-                saveTo: '`assets/images`', // Upload file to physical path
-                maxCount: 1, // Upload multiple file. If maxCount > 1 ? Array : Path image file
-                isFull: false, // isFull ? details object image : only path
-                returnPath: "`/images/${filename}`", // Path get after upload which is inserted into database (It's web path not physical path)
-                limits: 10000, // limit file size
-                resize: Native("global.appconfig.app.imageResize.product") // Auto resize image base on config in src/appconfig.js
-            }),
+module.exports = {
+    tables: { 
+        test: { // Collection which you want to generate
+            _id: GenType.Key(GenType.String), // 
+            name: GenType.String("Unknown"),
+            age: GenType.Number(20),
+            date: GenType.Date('now'),
+            obj: GenType.Object({class: 'test'}),
+            arr: GenType.Array([1,2,3])
+            images: GenType.File({uploadDir: 'assets/images/', multiples: true, "httpPath": "/images/${filename}", "resize": Native("global.appconfig.app.imageResize.product")}),
+            avatar: GenType.File({uploadDir: 'assets/avatar/', multiples: false, "httpPath": "/avatar/${filename}", "resize": Native("global.appconfig.app.imageResize.avatar")}),
             created_at: GenType.Date('auto-insert'),
             updated_at: GenType.Date('auto-insert|auto-update')
         }
@@ -95,7 +73,7 @@ npm run gen
 ## Installation
 1. Use file uploading 
 ```sh
-npm install fs-path multer --save
+npm install fs-path --save
 ```
 
 2. Use image resizing
