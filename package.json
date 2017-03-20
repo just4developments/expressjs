@@ -1,5 +1,5 @@
 {
-  "name": "mcro-core",
+  "name": "mcro-oauth",
   "version": "1.0.0",
   "description": "It extends expressjs-core. It help us easy to make core micro service and generate APIs",
   "main": "index.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/just4developments/expressjs-core/tree/mcro-core"
+    "url": "https://github.com/just4developments/expressjs-core/tree/mcro-oauth"
   },
   "author": "just4developments@gmail.com",
   "license": "ISC",
@@ -27,6 +27,9 @@
     "lodash": "^4.17.2",
     "mongodb": "^2.2.22",
     "unirest": "^0.5.1",
+    "fs-path": "0.0.23",
+    "multer": "^1.3.0",
+    "redis": "^2.6.5",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

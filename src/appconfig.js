@@ -1,8 +1,8 @@
 global.appconfig = {
-    name: 'plugin.core',
-    listen: 9002,
+    name: 'plugin.oauth',
+    listen: 9600,
     db: {
-        url: 'mongodb://localhost:27017/core'
+        url: 'mongodb://192.168.0.111:27017/oauthv2'
     },
     services: {
         manager: 'http://localhost:9599',
@@ -11,6 +11,14 @@ global.appconfig = {
         log: 'http://localhost:9603'
     },
     app: {
-        encrypt: '*(*#$&'
+        encrypt: ')^!!!(**',
+        rootProjectId: '58a714841ca4c40a38ae2125'
+    },
+    cache: {
+        redis: {
+            host: 'localhost',
+            port: 6379,
+            opts: {}
+        }        
     }
 };

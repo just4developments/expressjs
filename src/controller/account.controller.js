@@ -1,0 +1,157 @@
+const _ = require('lodash');
+
+const utils = require('../utils');
+const db = require('../db');
+const encrypt = require('../../lib/core/encrypt');
+const bodyHandler = require('../body.handler');
+const accountService = require('../service/account.service');
+
+/************************************
+ ** CONTROLLER:   accountController
+ ** AUTHOR:       Unknown
+ ** CREATED DATE: 2/17/2017, 10:36:37 AM
+ *************************************/
+
+app.get('/account', utils.auth(`${global.appconfig.name}>account`, 'FIND'), async(req, res, next) => {
+	try {
+		let where = req.query.q ? JSON.parse(req.query.q) : {};
+		where.project_id = req.auth.projectId;
+		where._id = { $ne: req.auth.accountId };
+		where.is_nature = { $eq: null };
+		const rs = await accountService.find({
+			$where: where,
+			$sort: {
+				updated_at: -1
+			},
+			$fields: {
+				password: 0,
+				secret_key: 0,
+				token: 0
+			}
+		});
+		res.send(rs);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.get('/account/:_id', utils.auth(`${global.appconfig.name}>account`, 'GET'), async(req, res, next) => {
+	try {
+		const rs = await accountService.get({
+			$where: {
+				_id: db.uuid(req.params._id),
+				project_id: req.auth.projectId
+			},
+			$fields: {
+				password: 0
+			}
+		});
+		res.send(rs);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.post('/account', utils.auth(`${global.appconfig.name}>account`, 'ADD'), bodyHandler.jsonHandler({
+	role_ids: (role_ids) => {
+		return role_ids.map(db.uuid);
+	},
+	app: String,
+	username: String,
+	password: encrypt.md5,
+	status: Number,
+	recover_by: String,
+	more: Object
+}), async(req, res, next) => {
+	try {
+		req.body.project_id = req.auth.projectId;
+		const rs = await accountService.insert(req.body, req.auth);
+		res.send(rs);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.put('/account/more', utils.auth(`${global.appconfig.name}>account`, 'UPDATE_MANY'), bodyHandler.jsonHandler(), async(req, res, next) => {
+	try {
+		if(!req.query.q) throw Error.create(Error.NOT_FOUND);
+		const where = JSON.parse(req.query.q);
+		where.project_id = req.auth.projectId;
+		const rs = await accountService.updateMore(where, req.body);
+		res.send(rs);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.put('/account/:_id', utils.auth(`${global.appconfig.name}>account`, 'UPDATE'), bodyHandler.jsonHandler({
+	project_id: db.Uuid,
+	role_ids: (role_ids) => {
+		return role_ids.map(db.uuid);
+	},
+	app: String,
+	username: String,
+	password: encrypt.md5,
+	secret_key: Boolean,
+	status: Number,
+	recover_by: String,
+	more: Object
+}), async(req, res, next) => {
+	try {
+		req.body._id = {
+			_id: db.uuid(req.params._id),
+			project_id: req.auth.projectId
+		};
+		const rs = await accountService.update(req.body);
+		res.send(rs);
+	} catch (err) {
+		next(err);
+	}
+});
+
+/**
+ * Update many account
+ */
+app.put('/account', utils.auth(`${global.appconfig.name}>account`, 'UPDATE'), bodyHandler.jsonHandler([{
+	project_id: db.Uuid,
+	role_ids: (role_ids) => {
+		return role_ids.map(db.uuid);
+	},
+	app: String,
+	username: String,
+	password: encrypt.md5,
+	secret_key: Boolean,
+	status: Number,
+	recover_by: String,
+	more: Object
+}]), async(req, res, next) => {
+	try {
+		req.body = req.body.map((e) => {
+			e._id = {
+				_id: e._id,
+				project_id: req.auth.projectId
+			}
+			return e;
+		});
+		let rss = [];
+		for(let e of req.body) {
+			const rs = await accountService.update(e);
+			rss.push(rs);
+		}
+		res.send(rss);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.delete('/account/:_id', utils.auth(`${global.appconfig.name}>account`, 'DELETE'), async(req, res, next) => {
+	try {
+		const rs = await accountService.delete({
+			_id: db.uuid(req.params._id),
+			project_id: req.auth.projectId
+		});
+		res.send(rs);
+	} catch (err) {
+		next(err);
+	}
+});

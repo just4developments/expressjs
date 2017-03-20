@@ -12,13 +12,18 @@ global.app = app;
 app.disable('etag');
 app.disable('x-powered-by');
 
+app.use(cors({
+    exposedHeaders: ['token']
+}));
+
+app.use('/dist', express.static('web/dist'));
+app.use(express.static('assets'));
+
 if(app.get('env') === 'production') {
     require('./env/production');
 } else {
     require('./env/development');    
 }
-
-app.use(cors());
 
 global.FileUpload = (config) => {
     return config;
@@ -38,5 +43,6 @@ app.use((err, req, res, next) => {
 
 app.listen(appconfig.listen, () => {
   delete global.app;
+  require('./src/service/_startup');
   console.log('Listening on %d', appconfig.listen);
 });
