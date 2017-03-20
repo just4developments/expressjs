@@ -22,7 +22,7 @@ exports = module.exports = {
             },
             data: data
         });
-        return resp;
+        return resp.body;
     },
     async getConfig(auth, pluginName) {
         const resp = await httpService.get(`${global.appconfig.services.auth}/config`, {
@@ -37,5 +37,5 @@ exports = module.exports = {
         });
         if (resp.code === 200) return resp.body;
         throw resp.body;
-    },
+    }
 }

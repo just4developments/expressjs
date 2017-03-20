@@ -9,6 +9,9 @@ const bodyHandler = require('./src/body.handler');
 const app = express();
 global.app = app;
 
+app.use('/dist', express.static('web/dist'));
+app.use('/attachments', express.static('assets/attachments'));
+
 app.disable('etag');
 app.disable('x-powered-by');
 
@@ -38,5 +41,6 @@ app.use((err, req, res, next) => {
 
 app.listen(appconfig.listen, () => {
   delete global.app;
+  require('./src/service/_startup.js');
   console.log('Listening on %d', appconfig.listen);
 });

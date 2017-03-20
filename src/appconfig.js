@@ -1,8 +1,8 @@
 global.appconfig = {
-    name: 'plugin.core',
-    listen: 9002,
+    name: 'plugin.mail',
+    listen: 9602,
     db: {
-        url: 'mongodb://localhost:27017/core'
+        url: 'mongodb://localhost:27017/mail'
     },
     services: {
         manager: 'http://localhost:9599',
@@ -11,6 +11,7 @@ global.appconfig = {
         log: 'http://localhost:9603'
     },
     app: {
-        encrypt: '*(*#$&'
+        timeout_scan_email: 5000,
+        encrypt: ')^!!!(**'
     }
 };
